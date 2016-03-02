@@ -5,8 +5,8 @@ salesman problem: finding the shortest distance while travelling a number of cit
 same city.
 
 It does this using a Genetic Algorithm inspired by the [talk](https://blog.bwknopper.nl/blog/2016/02/16/jfokus-conference-a-presentation-to-remember/) 
-of my friend and colleague [Bas Knopper](https://twitter.com/bwknopper). I won't dive too deep into the algorithm (Bas)
-does a much better job of explaining it but it very basically works by generating random routes between cities, finding
+of my friend and colleague [Bas Knopper](https://twitter.com/bwknopper). I won't dive too deep into the algorithm (Bas
+does a much better job of explaining it) but it very basically works by generating random routes between cities, finding
 the best ones and then recombining and mutating these best ones to find even better ones. This is done in a number of 
 iterations.
 
@@ -34,5 +34,11 @@ You should also be able to deploy the jar on a spark cluster after you've built 
 | -m     | String | local[4]    | Spark Master                      |
 | -a     | String | SparkOfLife | Application name                  |
 
+Example:
+
+-c 50 -s -i 10 -d 4 -m local[2] -a MyApp
+
+This will run the example with 50 cities, shuffled, in 10 iterations max with an iteration duration of 4 seconds max. It 
+will run Spark in local mode with 2 workers and name the Spark application MyApp. 
 
 
