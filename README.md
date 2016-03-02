@@ -2,7 +2,7 @@
 
 This example shows how to handle long running algorithms on Spark. It attempts to find a solution for the travelling
 salesman problem: finding the shortest distance while travelling a number of cities while starting and ending in the
-same city.
+same city. 
 
 It does this using a Genetic Algorithm inspired by the [talk](https://blog.bwknopper.nl/blog/2016/02/16/jfokus-conference-a-presentation-to-remember/) 
 of my friend and colleague [Bas Knopper](https://twitter.com/bwknopper). I won't dive too deep into the algorithm (Bas
@@ -13,7 +13,10 @@ iterations.
 The algorithm isn't [Embarrassingly Parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel): when you split the 
 work between threads after a while they will start to do a lot of double work. This is why it works in a fork-solve-recombine
 fashion where after each iteration a new work package is constructed from the best routes so far. This process continues
- either until the max number of iterations is reached or there is no change in distance anymore between iterations.
+either until the max number of iterations is reached or there is no change in distance anymore between iterations.
+ 
+I've also created [a blog post](http://www.niels.nu/blog/2016/spark-of-life-genetic-algorithm.html) that gives
+a more in-depth explanation of the code.
 
 ## Running
 

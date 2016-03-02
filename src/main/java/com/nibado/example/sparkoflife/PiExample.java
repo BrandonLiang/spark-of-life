@@ -28,11 +28,11 @@ public class PiExample {
 
         JavaRDD<Integer> dataSet = sc.parallelize(l, slices);
 
-        int count = dataSet.map((Function<Integer, Integer>) integer -> {
+        int count = dataSet.map(i -> {
             double x = Math.random() * 2 - 1;
             double y = Math.random() * 2 - 1;
             return (x * x + y * y < 1) ? 1 : 0;
-        }).reduce((Function2<Integer, Integer, Integer>) (integer, integer2) -> integer + integer2);
+        }).reduce((i1, i2) -> i1 + i2);
 
         double pi = 4.0 * (double)count / (double)n;
         System.out.println("Pi is roughly " + pi);
