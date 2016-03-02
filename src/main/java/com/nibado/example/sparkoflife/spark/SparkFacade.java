@@ -85,34 +85,4 @@ public final class SparkFacade {
 
         return work.shortest();
     }
-
-    /**
-     * SparkPi example used for testing.
-     *
-     * https://github.com/apache/spark/blob/master/examples/src/main/java/org/apache/spark/examples/JavaSparkPi.java
-     *
-     * @return an approximation of Pi.
-     */
-    public double pi() {
-        LOG.info("Solving Pi");
-        int slices = 2;
-        int n = 100000 * slices;
-        List<Integer> l = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
-            l.add(i);
-        }
-
-        JavaRDD<Integer> dataSet = sc.parallelize(l, slices);
-
-        int count = dataSet.map((Function<Integer, Integer>) integer -> {
-            double x = Math.random() * 2 - 1;
-            double y = Math.random() * 2 - 1;
-            return (x * x + y * y < 1) ? 1 : 0;
-        }).reduce((Function2<Integer, Integer, Integer>) (integer, integer2) -> integer + integer2);
-
-        double pi = 4.0 * (double)count / (double)n;
-        LOG.info("Pi is roughly {}", pi);
-
-        return pi;
-    }
 }

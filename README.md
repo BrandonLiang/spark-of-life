@@ -1,6 +1,6 @@
 # Spark of Life: Running a genetic algorithm on Spark
 
-This examples shows how to handle long running algorithms on Spark. It attempts to find a solution for the travelling
+This example shows how to handle long running algorithms on Spark. It attempts to find a solution for the travelling
 salesman problem: finding the shortest distance while travelling a number of cities while starting and ending in the
 same city.
 
