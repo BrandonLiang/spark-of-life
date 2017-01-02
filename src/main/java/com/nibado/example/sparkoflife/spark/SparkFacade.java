@@ -5,12 +5,9 @@ import com.nibado.example.sparkoflife.salesman.Route;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -39,22 +36,21 @@ public final class SparkFacade {
      * Stops the spark context.
      */
     public void stop() {
-        sc.stop();
+        sc.close();
     }
 
     /**
      * Solves the travelling salesman problem using a genetic algorithm that converges on an approximate
      * 'shortest' solution.
-     *
+     * <p>
      * It does a fork-solve-recombine (parallize-map-reduce) sequence for 'iterations' times. The work
      * is split into a number of Work packages depending on the amount of available workers.
-     *
+     * <p>
      * If there is no improvement in the best distance between iterations the solver will terminate.
      *
-     * @param cities the list of cities to create a route for.
-     * @param iterations max for-solve-recombine iterations that should be done
+     * @param cities      the list of cities to create a route for.
+     * @param iterations  max for-solve-recombine iterations that should be done
      * @param maxDuration max duration for a single iteration
-     *
      * @return the shortest route.
      */
     public Route solveFor(List<City> cities, int iterations, int maxDuration) {
@@ -65,14 +61,14 @@ public final class SparkFacade {
         Work work = Work.forCities(cities, maxDuration);
         double start = work.shortest().getDistance();
 
-        for(int i = 0; i < iterations;i++) {
+        for (int i = 0; i < iterations; i++) {
             double iterStart = work.shortest().getDistance();
             JavaRDD<Work> dataSet = sc.parallelize(work.fork(sc.defaultParallelism()));
 
             work = dataSet.map(Work::solve).reduce(Work::combine);
 
             LOG.info("Iteration {} result: {}", i, formatDistance(work.shortest().getDistance()));
-            if(iterStart == work.shortest().getDistance()) {
+            if (iterStart == work.shortest().getDistance()) {
                 LOG.info("No change; terminating.");
                 break;
             }

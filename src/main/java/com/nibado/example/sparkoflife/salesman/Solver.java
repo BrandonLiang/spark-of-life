@@ -1,4 +1,5 @@
 package com.nibado.example.sparkoflife.salesman;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,8 +97,7 @@ public class Solver implements Callable<Route> {
                 update.update(gen, routes.get(0), false);
                 dist = curDist;
                 sameCount = 0;
-            }
-            else {
+            } else {
                 sameCount++;
             }
             if (sameCount > 10) {
@@ -108,13 +108,13 @@ public class Solver implements Callable<Route> {
     }
 
     public static List<Route> solve(List<Route> routes, int maxDuration, int maxSame, int maxGenerations) {
-        if(maxSame <= 0 && maxDuration <= 0 && maxGenerations <= 0) {
+        if (maxSame <= 0 && maxDuration <= 0 && maxGenerations <= 0) {
             throw new IllegalArgumentException("You need to specify a positive max duration, same or generations");
         }
         double dist = 0;
         int sameCount = 0;
         long start = System.currentTimeMillis();
-        for (int generation = 1;; generation++) {
+        for (int generation = 1; ; generation++) {
             routes = selectParents(routes);
             crossAndMutate(routes);
             final double curDist = routes.get(0).getDistance();
@@ -122,17 +122,14 @@ public class Solver implements Callable<Route> {
                 dist = curDist;
                 sameCount = 0;
                 LOG.debug("{}: {}", generation, formatDistance(routes.get(0).getDistance()));
-            }
-            else {
+            } else {
                 sameCount++;
             }
             if (maxSame > 0 && sameCount > maxSame) {
                 return routes;
-            }
-            else if(maxDuration > 0 && (System.currentTimeMillis() - start) > maxDuration) {
+            } else if (maxDuration > 0 && (System.currentTimeMillis() - start) > maxDuration) {
                 return routes;
-            }
-            else if(maxGenerations > 0 && generation > maxGenerations) {
+            } else if (maxGenerations > 0 && generation > maxGenerations) {
                 return routes;
             }
         }

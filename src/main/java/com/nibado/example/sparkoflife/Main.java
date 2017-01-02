@@ -8,9 +8,6 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,7 +37,7 @@ public class Main {
 
     private static List<City> loadCities(int trimTo, boolean shuffle) throws Exception {
         List<JsonCity> cities = new ArrayList<>(Arrays.asList(new ObjectMapper().readValue(Main.class.getResourceAsStream("/europe.json"), JsonCity[].class)));
-        if(shuffle) {
+        if (shuffle) {
             Collections.shuffle(cities);
         }
         return cities

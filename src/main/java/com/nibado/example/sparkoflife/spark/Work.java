@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import static com.nibado.example.sparkoflife.salesman.Route.formatDistance;
 import static com.nibado.example.sparkoflife.salesman.Solver.createGenerationZero;
 import static java.lang.Double.compare;
-import static java.lang.Double.max;
 
 /**
  * This class represents a unit of 'Work' that is executed by the Spark executors. The solve() method does the actual
@@ -67,13 +66,12 @@ public class Work implements Serializable {
      * Forks a single Work package into {slices} identical work packages for parallelisation.
      *
      * @param slices amount of slices
-     *
      * @return a list of copies
      */
     public List<Work> fork(int slices) {
         List<Work> list = new ArrayList<>(slices);
 
-        for(int i = 0; i < slices - 1;i++) {
+        for (int i = 0; i < slices - 1; i++) {
             list.add(clone());
         }
         list.add(this);
@@ -96,6 +94,7 @@ public class Work implements Serializable {
 
     /**
      * Used in the reduce operation to recombine the Work objects into one optimal package
+     *
      * @param work1 first object
      * @param work2 second object
      * @return a new Work object containing the shortest routes
